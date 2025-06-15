@@ -18,6 +18,7 @@ mongoose
   .catch((e) => console.log(e.message));
 
 //example url --- localhost:3000/api/product
+//example url --- localhost:3000/api/getProduct
 
 app.use("/api", productRoute);
 

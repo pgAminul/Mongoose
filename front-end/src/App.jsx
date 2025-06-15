@@ -1,5 +1,7 @@
 import axios from "axios";
-
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../src/App.css";
 export default function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,10 +15,29 @@ export default function App() {
 
     await axios
       .post("http://localhost:3000/api/product", allData)
-      .then((res) => console.log(res.data))
+      .then((res) => alert(res.data))
       .catch((e) => console.log(e.message));
   };
 
+  const [products, setProduct] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:3000/api/getProduct")
+        .then((data) => setProduct(data.data))
+        .catch((e) => console.log(e.message));
+    };
+
+    fetchData();
+  }, [axios, setProduct]);
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3000/api/productDelete/${id}`)
+      .then((res) => alert("product deleted"))
+      .catch((e) => console.log(e.message));
+  };
   return (
     <div>
       <form
@@ -30,7 +51,6 @@ export default function App() {
           name="name"
           placeholder="product Name"
           className="w-full p-2 mb-3 border rounded"
-          required
         />
 
         <input
@@ -38,15 +58,13 @@ export default function App() {
           name="price"
           placeholder="price"
           className="w-full p-2 mb-3 border rounded"
-          required
         />
 
         <input
-          type="number"
+          type="text"
           name="category"
           placeholder="category"
           className="w-full p-2 mb-3 border rounded"
-          required
         />
 
         <button
@@ -56,6 +74,26 @@ export default function App() {
           Submit
         </button>
       </form>
+
+      <div>
+        {products.map((product) => {
+          const { _id, price, name, category } = product;
+
+          return (
+            <div key={_id}>
+              <div className="card">
+                <h2>{name}</h2>
+                {/* <h2>{price}</h2>
+                <h2>{category}</h2> */}
+                <button onClick={() => handleDelete(_id)}>Delete</button>
+                <Link to={`/product/${_id}`}>
+                  <button>Details</button>
+                </Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
