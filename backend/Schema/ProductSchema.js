@@ -5,20 +5,28 @@ const mongoose = require("mongoose");
 const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: true,
-    required: [true, "product name is required"],
+    uppercase: true,
+    unique: true,
+    required: [true, "name is required"],
     trim: true,
-    // minlength: 5,
-    minlength: [5, "name must be more then 5 chrc "],
-    // maxlength: 10,
-    maxlength: [10, "name must be less then 10 chrc "],
-
-    // enum: {
-    //   values: ["active", "inactive"],
-    // },
+    minlength: [10, "min length is 10"],
+    maxlength: [20, "max length is 20"],
   },
-  price: Number,
-  category: String,
+  price: {
+    type: Number,
+    min: 20,
+    max: [99, "max price will be 99"],
+  },
+  category: {
+    type: String,
+    default: "Food",
+    lowercase: true,
+  },
+
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+  },
 });
 
 //  mongodb (collection)----  mongoose (model)

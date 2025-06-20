@@ -9,9 +9,10 @@ export default function App() {
     const form = e.target;
     const name = form.name.value;
     const price = form.price.value;
+    const role = form.role.value;
     const category = form.category.value;
 
-    const allData = { name, price, category };
+    const allData = { name, price, category, role };
 
     await axios
       .post("http://localhost:3000/api/product", allData)
@@ -50,6 +51,12 @@ export default function App() {
           type="text"
           name="name"
           placeholder="product Name"
+          className="w-full p-2 mb-3 border rounded"
+        />
+        <input
+          type="text"
+          name="role"
+          placeholder="product role"
           className="w-full p-2 mb-3 border rounded"
         />
 
