@@ -11,8 +11,9 @@ export default function App() {
     const price = form.price.value;
     const role = form.role.value;
     const category = form.category.value;
+    const phoneNumber = form.phoneNumber.value;
 
-    const allData = { name, price, category, role };
+    const allData = { name, price, category, role, phoneNumber };
 
     await axios
       .post("http://localhost:3000/api/product", allData)
@@ -74,6 +75,13 @@ export default function App() {
           className="w-full p-2 mb-3 border rounded"
         />
 
+        <input
+          type="number"
+          name="phoneNumber"
+          placeholder="write your phone number"
+          className="w-full p-2 mb-3 border rounded"
+        />
+
         <button
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded"
@@ -83,15 +91,16 @@ export default function App() {
       </form>
 
       <div>
+        <h3>product length {products.length}</h3>
         {products.map((product) => {
-          const { _id, price, name, category } = product;
+          const { _id, price, name, role, category } = product;
 
           return (
             <div key={_id}>
               <div className="card">
                 <h2>{name}</h2>
-                {/* <h2>{price}</h2>
-                <h2>{category}</h2> */}
+                <h2>{role}</h2>
+
                 <button onClick={() => handleDelete(_id)}>Delete</button>
                 <Link to={`/product/${_id}`}>
                   <button>Details</button>

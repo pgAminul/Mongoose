@@ -17,15 +17,22 @@ const ProductSchema = new mongoose.Schema({
     min: 20,
     max: [99, "max price will be 99"],
   },
-  category: {
-    type: String,
-    default: "Food",
-    lowercase: true,
-  },
+  category: { type: String, default: "food", lowercase: true },
 
   role: {
     type: String,
     enum: ["admin", "user"],
+  },
+
+  phoneNumber: {
+    type: Number,
+    validate: {
+      validator: (number) => {
+        return /^\d{11}$/.test(number);
+      },
+      message: (number) =>
+        `${number.value} is not a valid 11 digit phone number`,
+    },
   },
 });
 

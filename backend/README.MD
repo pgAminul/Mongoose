@@ -47,3 +47,16 @@ category: string
 1. database setup
 2. schema validation
 3. route
+
+# Query Method
+
+1. Select()
+2. limit()
+3. sort()
+4. skip()
+5. Populate() ---> important
+6. where().equals()
+7. gt(), gte(), lt(), lte()
+8. or() and()
+9. exists()
+10. ne()

@@ -9,7 +9,7 @@ export default function SingleProduct() {
   useEffect(() => {
     const fetchSignleData = async () => {
       await axios
-        .get(`http://localhost:3000/api/singleProduct/${id}`)
+        .get(`http://localhost:3000/api/specificProduct/${id}`)
         .then((data) => setSignleProduct(data.data))
         .catch((e) => console.log(e.message));
     };
@@ -18,7 +18,7 @@ export default function SingleProduct() {
 
   console.log(singleProduct);
 
-  const { name, category, price } = singleProduct;
+  const { name, category, price, role } = singleProduct;
   return (
     <div>
       <h2>Product Details Page</h2>
@@ -27,6 +27,7 @@ export default function SingleProduct() {
         <h3>{name}</h3>
         <h3>{category}</h3>
         <h3>{price}</h3>
+        <h3>{role}</h3>
       </div>
     </div>
   );
