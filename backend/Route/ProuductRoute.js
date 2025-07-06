@@ -53,14 +53,27 @@ router.get("/getProduct", async (req, res) => {
 
     // exists()
 
-    const allProduct = await Product.find()
-      .select("name")
-      .where("category")
-      .exists(true);
+    // const allProduct = await Product.find()
+    //   .select("name")
+    //   .where("category")
+    //   .exists(true);
+
+    const allProduct = await Product.find();
 
     res.send(allProduct);
   } catch (error) {
     res.send(error.message);
+  }
+});
+
+// find by email
+router.get("/findByEmail/:email", async (req, res) => {
+  try {
+    const email = req.params.email;
+    const result = await Product.findByEmail(email);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
   }
 });
 
@@ -82,8 +95,7 @@ router.get("/specificProduct/:id", async (req, res) => {
     const id = req.params.id;
     // specific data filed
     const getSingleProduct = await Product.findById(id).select("name price");
-    // data
-    // const getSingleProduct = await Product.findById(id).select("-name");
+
     res.send(getSingleProduct);
   } catch (error) {
     res.status(500).send({ message: "server side error" });

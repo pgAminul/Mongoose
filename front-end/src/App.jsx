@@ -12,8 +12,9 @@ export default function App() {
     const role = form.role.value;
     const category = form.category.value;
     const phoneNumber = form.phoneNumber.value;
+    const email = form.email.value;
 
-    const allData = { name, price, category, role, phoneNumber };
+    const allData = { name, price, category, role, phoneNumber, email };
 
     await axios
       .post("http://localhost:3000/api/product", allData)
@@ -34,12 +35,20 @@ export default function App() {
     fetchData();
   }, [axios, setProduct]);
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/api/productDelete/${id}`)
-      .then((res) => alert("product deleted"))
-      .catch((e) => console.log(e.message));
-  };
+  const [findEmail, setFindEmail] = useState([]);
+  console.log(findEmail);
+
+  const email = "aminul@gmail.com";
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get(`http://localhost:3000/api/findByEmail/${email}`)
+        .then((data) => setFindEmail(data.data))
+        .catch((e) => console.log(e.message));
+    };
+
+    fetchData();
+  }, [axios, setFindEmail]);
   return (
     <div>
       <form
@@ -82,6 +91,13 @@ export default function App() {
           className="w-full p-2 mb-3 border rounded"
         />
 
+        <input
+          type="email"
+          name="email"
+          placeholder="write your email"
+          className="w-full p-2 mb-3 border rounded"
+        />
+
         <button
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded"
@@ -93,19 +109,32 @@ export default function App() {
       <div>
         <h3>product length {products.length}</h3>
         {products.map((product) => {
-          const { _id, price, name, role, category } = product;
+          const { _id, price, name, role, email, category } = product;
 
           return (
             <div key={_id}>
               <div className="card">
                 <h2>{name}</h2>
-                <h2>{role}</h2>
+                <h2>{email ? email : "not found"}</h2>
 
                 <button onClick={() => handleDelete(_id)}>Delete</button>
                 <Link to={`/product/${_id}`}>
                   <button>Details</button>
                 </Link>
               </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div>
+        <h2>find by email</h2>
+
+        {findEmail.map((email) => {
+          return (
+            <div>
+              <h2>{email.name}</h2>
+              <h2>{email.email}</h2>
             </div>
           );
         })}
